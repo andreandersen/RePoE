@@ -21,10 +21,22 @@ def _convert_spawn_weights(spawn_weights):
     r = []
     for tag, value in spawn_weights:
         r.append({
-            tag['Id']: value > 0
+            tag['Id']: value > 0,
+            'value': value
         })
     return r
 
+def _convert_generation_weights(generation_weights):
+	# 'GenerationWeight' is an array of arrays with two elements where the first contains
+	# the id, and the second the value
+	r = []
+	ids = generation_weights[0];
+	vals = generation_weights[1];
+	for idx, id in enumerate(ids):
+		r.append({
+			id['Id']: vals[idx]
+		})
+	return r
 
 def _convert_buff(buff_definition, buff_value):
     if buff_definition is None:
@@ -79,7 +91,8 @@ def write_mods(data_path, relational_reader, **kwargs):
             'grants_buff': _convert_buff(mod['BuffDefinitionsKey'], mod['BuffValue']),
             'grants_effect': _convert_granted_effects(mod['GrantedEffectsPerLevelKey']),
             'is_essence_only': mod['IsEssenceOnlyModifier'] > 0,
-            'adds_tags': _convert_tags_keys(mod['TagsKeys'])
+            'adds_tags': _convert_tags_keys(mod['TagsKeys']),
+            'generation_weights': _convert_generation_weights(mod['GenerationWeight'])
         }
         if mod['Id'] in root:
             print("Duplicate mod id:", mod['Id'])
