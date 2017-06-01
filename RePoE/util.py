@@ -27,7 +27,7 @@ def create_relational_reader(ggpk):
         'use_dat_value': False,
         'auto_build_index': True,
     }
-    return RelationalReader(path_or_ggpk=ggpk, files=['Stats.dat'], read_options=opt)
+    return RelationalReader(path_or_ggpk=ggpk, files=['Stats.dat'], read_options=opt, raise_error_on_missing_relation=False)
 
 
 def create_translation_file_cache(ggpk):
@@ -35,6 +35,6 @@ def create_translation_file_cache(ggpk):
 
 
 def call_with_default_args(write_func):
-    ggpk = load_ggpk('D:/Program Files (x86)/Grinding Gear Games/Path of Exile/Content.ggpk')
+    ggpk = load_ggpk('C:/Program Files (x86)/Grinding Gear Games/Path of Exile/Content.ggpk')
     write_func(ggpk=ggpk, data_path='../data/', relational_reader=create_relational_reader(ggpk),
                translation_file_cache=create_translation_file_cache(ggpk))
