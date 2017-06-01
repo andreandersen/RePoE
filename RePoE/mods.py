@@ -21,7 +21,7 @@ def _convert_spawn_weights(spawn_weights):
     r = []
     for tag, value in spawn_weights:
         r.append({
-            tag['Id']: value > 0,
+            'id': tag['Id'],
             'value': value
         })
     return r
@@ -34,7 +34,8 @@ def _convert_generation_weights(generation_weights):
 	vals = generation_weights[1];
 	for idx, id in enumerate(ids):
 		r.append({
-			id['Id']: vals[idx]
+			'id': id['Id'],
+            'value': vals[idx]
 		})
 	return r
 
