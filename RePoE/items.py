@@ -16,6 +16,7 @@ def write_items(data_path, relational_reader, **kwargs):
         weapon = weapon_stats.get(it['Id'])
         obj = {
             'id': it['Id'],
+            'name': it['Name'],
             'class' : {
                 'id': it['ItemClassesKey']['Id'],
                 'name': it['ItemClassesKey']['Name'],
@@ -37,6 +38,22 @@ def write_items(data_path, relational_reader, **kwargs):
                 'armour': armour['Armour'],
                 'evasion': armour['Evasion'],
                 'energy_shield': armour['EnergyShield']
+            },
+            'attribute_requirements': None if attr is None else {
+                'str': attr['ReqStr'],
+                'dex': attr['ReqDex'],
+                'int': attr['ReqInt']
+            },
+            'shield_stats': None if shield is None else {
+                'block': shield['Block']
+            },
+            'weapon_stats': None if weapon is None else {
+                'crit': weapon['Critical'],
+                'aps': 0 if weapon['Speed'] is 0 else 1000 / weapon['Speed'],
+                'dmg_min': weapon['DamageMin'],
+                'dmg_max': weapon['DamageMax'],
+                'range': weapon['RangeMax'],
+                'null6': weapon['Null6']
             }
         }
         root[obj['id']] = obj
