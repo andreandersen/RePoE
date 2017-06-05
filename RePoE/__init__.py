@@ -8,7 +8,7 @@ from RePoE.items import write_items
 from RePoE.npc_master import write_npc_master
 from RePoE.stat_translations import write_stat_translations
 from RePoE.stats import write_stats
-from RePoE.util import load_ggpk, create_relational_reader, create_translation_file_cache
+from RePoE.util import load_ggpk, create_relational_reader, create_translation_file_cache, create_otfilecache
 
 
 def main(data_path='../data/'):
@@ -32,15 +32,18 @@ def main(data_path='../data/'):
                         help="path to your Content.ggpk file")
     args = parser.parse_args()
 
-    print("Loading GGPK ...", end='', flush=True)
-    ggpk = load_ggpk(args.file)
-    print(" Done!")
+    # print("Loading GGPK ...", end='', flush=True)
+    # ggpk = load_ggpk(args.file)
+    # print(" Done!")
+
+    ggpk = 'E:/ggpk/temp'
 
     rr = create_relational_reader(ggpk)
     tfc = create_translation_file_cache(ggpk)
+    otcache = create_otfilecache(ggpk)
     for module in args.modules:
         print("Running module '%s'" % module)
-        modules[module](ggpk=ggpk, data_path=data_path, relational_reader=rr, translation_file_cache=tfc)
+        modules[module](ggpk=ggpk, data_path=data_path, relational_reader=rr, translation_file_cache=tfc, otcache=otcache)
 
 if __name__ == '__main__':
     main()

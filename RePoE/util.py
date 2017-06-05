@@ -4,7 +4,7 @@ import io
 from PyPoE.poe.file import GGPKFile
 from PyPoE.poe.file import RelationalReader
 from PyPoE.poe.file import TranslationFileCache
-
+from PyPoE.poe.file import OTFileCache
 
 def write_json(root_obj, data_path, file_name):
     print("Writing '" + str(file_name) + ".json' ...", end='', flush=True)
@@ -32,6 +32,9 @@ def create_relational_reader(ggpk):
 
 def create_translation_file_cache(ggpk):
     return TranslationFileCache(path_or_ggpk=ggpk)
+
+def create_otfilecache(ggpk):
+    return OTFileCache(path_or_ggpk=ggpk)
 
 
 def call_with_default_args(write_func):

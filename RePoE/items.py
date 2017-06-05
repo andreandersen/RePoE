@@ -1,19 +1,21 @@
+from collections import OrderedDict
 from RePoE.util import write_json, call_with_default_args
 
-def write_items(data_path, relational_reader, **kwargs):
+def write_items(data_path, relational_reader, otcache, **kwargs):
     """Writes items to json file"""
     base_items = relational_reader['BaseItemTypes.dat']
     attr_req = dict((x['BaseItemTypesKey']['Id'], x) for x in (y for y in relational_reader['ComponentAttributeRequirements.dat'] if y['BaseItemTypesKey'] != None))    
     armour_stats = dict((x['BaseItemTypesKey']['Id'], x) for x in relational_reader['ComponentArmour.dat'])
     shield_stats = dict((x['BaseItemTypesKey']['Id'], x) for x in relational_reader['ShieldTypes.dat'])
     weapon_stats = dict((x['BaseItemTypesKey']['Id'], x) for x in relational_reader['WeaponTypes.dat'])
-
+    
     root = {}
     for it in base_items:
         attr = attr_req.get(it['Id'])
         armour = armour_stats.get(it['Id'])
         shield = shield_stats.get(it['Id'])
         weapon = weapon_stats.get(it['Id'])
+        ot_tags = list(otcache[it['InheritsFrom'] + '.ot']['Base']['tag'])
         obj = {
             'id': it['Id'],
             'name': it['Name'],
@@ -27,7 +29,7 @@ def write_items(data_path, relational_reader, **kwargs):
             'inherits_from': it['InheritsFrom'],
             'drop_level': it['DropLevel'],
             'implicits': list(map(lambda x: x['Id'], it['Implicit_ModsKeys'])),
-            'tags': list(map(lambda x: x['Id'], it['TagsKeys'])),
+            'tags': list(OrderedDict.fromkeys((list(map(lambda x: x['Id'], it['TagsKeys'])) + ot_tags))),
             'visual_identity': {
                 'id': it['ItemVisualIdentityKey']['Id'],
                 'dds': it['ItemVisualIdentityKey']['DDSFile'],
@@ -52,8 +54,7 @@ def write_items(data_path, relational_reader, **kwargs):
                 'aps': 0 if weapon['Speed'] is 0 else 1000 / weapon['Speed'],
                 'dmg_min': weapon['DamageMin'],
                 'dmg_max': weapon['DamageMax'],
-                'range': weapon['RangeMax'],
-                'null6': weapon['Null6']
+                'range': weapon['RangeMax']
             }
         }
         root[obj['id']] = obj
