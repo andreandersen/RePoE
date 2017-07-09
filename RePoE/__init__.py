@@ -8,6 +8,7 @@ from RePoE.items import write_items
 from RePoE.npc_master import write_npc_master
 from RePoE.stat_translations import write_stat_translations
 from RePoE.stats import write_stats
+from RePoE.essences import write_essences
 from RePoE.util import load_ggpk, create_relational_reader, create_translation_file_cache, create_otfilecache
 
 
@@ -21,6 +22,7 @@ def main(data_path='../data/'):
         'gem_tags': write_gem_tags,
         'crafting_bench_options': write_crafting_bench_options,
         'npc_master': write_npc_master,
+        'essences': write_essences
         # todo maybe Essences.dat
         # todo 'buffs': BuffDefinitions.dat?
     }

@@ -26,18 +26,20 @@ def _convert_spawn_weights(spawn_weights):
         })
     return r
 
+
 def _convert_generation_weights(generation_weights):
-	# 'GenerationWeight' is an array of arrays with two elements where the first contains
-	# the id, and the second the value
-	r = []
-	ids = generation_weights[0];
-	vals = generation_weights[1];
-	for idx, id in enumerate(ids):
-		r.append({
-			'id': id['Id'],
+        # 'GenerationWeight' is an array of arrays with two elements where the first contains
+        # the id, and the second the value
+    r = []
+    ids = generation_weights[0]
+    vals = generation_weights[1]
+    for idx, id in enumerate(ids):
+        r.append({
+            'id': id['Id'],
             'value': vals[idx]
-		})
-	return r
+        })
+    return r
+
 
 def _convert_buff(buff_definition, buff_value):
     if buff_definition is None:
@@ -67,7 +69,7 @@ def _convert_tags_keys(tags_keys):
 
 def ignore_mod_domain(domain):
     return domain is not MOD_DOMAIN.ITEM and domain is not MOD_DOMAIN.FLASK and domain is not MOD_DOMAIN.MASTER\
-           and domain is not MOD_DOMAIN.JEWEL
+        and domain is not MOD_DOMAIN.JEWEL and domain is not MOD_DOMAIN.ATLAS
 
 
 # todo enable when useful
